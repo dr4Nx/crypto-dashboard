@@ -1,0 +1,44 @@
+
+<%- include('partials/header') %>
+
+<div class="px-4 py-5 my-5 text-center">
+  <h1 class="display-5 fw-bold text-body-emphasis">Simple Crypto Dashboard</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">This Is Pretty Useless.</p>
+  </div>
+</div>
+
+<div class="container">
+  <form action="/set-api-key" method="post" class="mb-3">
+    <div class="mb-3">
+      <label for="api_key" class="form-label">API Key (CoinMarketCap)</label>
+      <input type="text" class="form-control" id="api_key" name="api_key" value="<%= api_key %>" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<div class="container">
+  <form action="/" method="get" class="mb-3">
+    <div class="mb-3">
+      <label for="crypto_select" class="form-label">Select Cryptocurrency</label>
+      <select class="form-select" id="crypto_select" name="crypto_select" required>
+        <% id_list.forEach(function(crypto) { %>
+          <option value="<%= crypto.id %>"><%= crypto.name %> - <%= crypto.symbol %></option>
+        <% }); %>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<div class="container">
+  <h2><%= data.symbol %> - <%= data.name %></h2>
+  <p>Price: $<%= data.quote.USD.price %></p>
+  <p>Market Cap: $<%= data.quote.USD.market_cap %></p>
+  <p>Volume: $<%= data.quote.USD.volume_24h %></p>
+  <p>Change: <%= data.quote.USD.percent_change_24h %>%</p>
+</div>
+
+<%- include('partials/footer') %>
+
+
+
