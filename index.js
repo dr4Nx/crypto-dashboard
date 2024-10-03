@@ -24,7 +24,6 @@ app.get('/', async (req, res) => {
       ids.splice(idIndex, 1);
     }
     ids.unshift(id);
-    console.log(ids);
     const content = await axios.get(`${api_url}/v2/cryptocurrency/quotes/latest?id=${ids.join(',')}`, {
       headers: {
       'X-CMC_PRO_API_KEY': api_key
