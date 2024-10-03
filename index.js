@@ -35,9 +35,9 @@ app.get('/', async (req, res) => {
       }
     });
     const crypto_list = crypto_list_response.data.data;
-    res.render("index.ejs", { api_key: api_key, id_list: crypto_list, data: content.data.data, ids: ids });
+    res.render("index.ejs", { id_list: crypto_list, data: content.data.data, ids: ids });
   } catch (err) {
-    res.render("index.ejs", { api_key: api_key });
+    res.render("index.ejs");
     console.error(err);
   }
 });

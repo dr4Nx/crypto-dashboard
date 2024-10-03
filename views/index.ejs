@@ -8,15 +8,7 @@
   </div>
 </div>
 
-<div class="container">
-  <form action="/set-api-key" method="post" class="mb-3">
-    <div class="mb-3">
-      <label for="api_key" class="form-label">API Key <a href="https://coinmarketcap.com/api/">(CoinMarketCap)</a></label>
-      <input type="text" class="form-control" id="api_key" name="api_key" value="<%= api_key %>" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
+
 <div class="container">
   <% if (locals.id_list && id_list.length > 0) { %>
     <form action="/" method="get" class="mb-3">
@@ -41,17 +33,17 @@
       <div class="crypto-info mb-4">
         <h2><%= crypto.symbol %> - <%= crypto.name %></h2>
         <h3>Price: $<%= crypto.quote.USD.price.toFixed(2) %></h3>
-        <h3>24H %: 
+        <h3>24H: 
           <span style="color: <%= crypto.quote.USD.percent_change_24h >= 0 ? 'green' : 'red' %>">
           <%= crypto.quote.USD.percent_change_24h >= 0 ? '+' : '' %><%= crypto.quote.USD.percent_change_24h.toFixed(2) %>%
           </span>
         </h3>
-        <h5>7 Day %: 
+        <h5>7 Day: 
           <span style="color: <%= crypto.quote.USD.percent_change_7d >= 0 ? 'green' : 'red' %>">
           <%= crypto.quote.USD.percent_change_7d >= 0 ? '+' : '' %><%= crypto.quote.USD.percent_change_7d.toFixed(2) %>%
           </span>
         </h5>
-        <h5>30 Day %: 
+        <h5>30 Day: 
           <span style="color: <%= crypto.quote.USD.percent_change_30d >= 0 ? 'green' : 'red' %>">
           <%= crypto.quote.USD.percent_change_30d >= 0 ? '+' : '' %><%= crypto.quote.USD.percent_change_30d.toFixed(2) %>%
           </span>
