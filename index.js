@@ -18,7 +18,7 @@ var crypto_list_response;
 
 app.get('/', async (req, res) => {
   try {
-    const id = req.query.crypto_select || 1;
+    const id = req.query.crypto_select || '1';
     const idIndex = ids.indexOf(id);
     if (idIndex !== -1) {
       ids.splice(idIndex, 1);
