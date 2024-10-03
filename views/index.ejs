@@ -4,39 +4,73 @@
 <div class="px-4 py-5 my-5 text-center">
   <h1 class="display-5 fw-bold text-body-emphasis">Simple Crypto Dashboard</h1>
   <div class="col-lg-6 mx-auto">
-    <p class="lead mb-4">This Is Pretty Useless.</p>
+    <p class="lead mb-4">Scan Through Top Coins.</p>
   </div>
 </div>
 
 <div class="container">
   <form action="/set-api-key" method="post" class="mb-3">
     <div class="mb-3">
-      <label for="api_key" class="form-label">API Key (CoinMarketCap)</label>
+      <label for="api_key" class="form-label">API Key <a href="https://coinmarketcap.com/api/">(CoinMarketCap)</a></label>
       <input type="text" class="form-control" id="api_key" name="api_key" value="<%= api_key %>" required>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
 <div class="container">
-  <form action="/" method="get" class="mb-3">
-    <div class="mb-3">
-      <label for="crypto_select" class="form-label">Select Cryptocurrency</label>
-      <select class="form-select" id="crypto_select" name="crypto_select" required>
-        <% id_list.forEach(function(crypto) { %>
-          <option value="<%= crypto.id %>"><%= crypto.name %> - <%= crypto.symbol %></option>
-        <% }); %>
-      </select>
+  <% if (locals.id_list && id_list.length > 0) { %>
+    <form action="/" method="get" class="mb-3">
+      <div class="mb-3">
+        <label for="crypto_select" class="form-label">Select Cryptocurrency</label>
+        <select class="form-select" id="crypto_select" name="crypto_select" required>
+          <% id_list.forEach(function(crypto) { %>
+            <option value="<%= crypto.id %>" <%= locals.ids && locals.ids[0] === `${crypto.id}` ? 'selected' : '' %>><%= crypto.name %> - <%= crypto.symbol %></option>
+          <% }); %>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  <% } else { %>
+    <p>API key invalid or data not available.</p>
+  <% } %>
+</div>
+<% if (locals.data && locals.ids) { %>
+  <% locals.ids.forEach(function(id) { %>
+    <% var crypto = locals.data[id]; %>
+    <div class="container rounded border p-3 my-5">
+      <div class="crypto-info mb-4">
+        <h2><%= crypto.symbol %> - <%= crypto.name %></h2>
+        <h3>Price: $<%= crypto.quote.USD.price.toFixed(2) %></h3>
+        <h3>24H %: 
+          <span style="color: <%= crypto.quote.USD.percent_change_24h >= 0 ? 'green' : 'red' %>">
+          <%= crypto.quote.USD.percent_change_24h >= 0 ? '+' : '' %><%= crypto.quote.USD.percent_change_24h.toFixed(2) %>%
+          </span>
+        </h3>
+        <h5>7 Day %: 
+          <span style="color: <%= crypto.quote.USD.percent_change_7d >= 0 ? 'green' : 'red' %>">
+          <%= crypto.quote.USD.percent_change_7d >= 0 ? '+' : '' %><%= crypto.quote.USD.percent_change_7d.toFixed(2) %>%
+          </span>
+        </h5>
+        <h5>30 Day %: 
+          <span style="color: <%= crypto.quote.USD.percent_change_30d >= 0 ? 'green' : 'red' %>">
+          <%= crypto.quote.USD.percent_change_30d >= 0 ? '+' : '' %><%= crypto.quote.USD.percent_change_30d.toFixed(2) %>%
+          </span>
+        </h5>
+        <hr>
+        <p class="mt-3">Market Cap: $<%= crypto.quote.USD.market_cap.toFixed(2) %></p>
+        <p>Volume: $<%= crypto.quote.USD.volume_24h.toFixed(2) %> 
+          (<span style="color: <%= crypto.quote.USD.volume_change_24h >= 0 ? 'green' : 'red' %>">
+          <%= crypto.quote.USD.volume_change_24h >= 0 ? '+' : '' %><%= crypto.quote.USD.volume_change_24h.toFixed(2) %>%
+          </span>)
+        </p>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
-<div class="container">
-  <h2><%= data.symbol %> - <%= data.name %></h2>
-  <p>Price: $<%= data.quote.USD.price %></p>
-  <p>Market Cap: $<%= data.quote.USD.market_cap %></p>
-  <p>Volume: $<%= data.quote.USD.volume_24h %></p>
-  <p>Change: <%= data.quote.USD.percent_change_24h %>%</p>
-</div>
+  <% }); %>
+<% } else { %>
+  <div class="container rounded border p-3 my-5">
+    <p>API key invalid or data not available.</p>
+  </div>
+<% } %>
 
 <%- include('partials/footer') %>
 
